@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Alarma Comunitaria</title>
+</head>
+<body>
+  <h1>Alarma Comunitaria</h1>
+  <button id="btnAlarma">Activar Alarma</button>
+  <p id="mensaje"></p>
+
+  <script>
+    document.getElementById('btnAlarma').addEventListener('click', () => {
+      const mensaje = document.getElementById('mensaje');
+      mensaje.textContent = 'Enviando alerta...';
+
+      fetch('http://localhost:5000/activar_alarma', { method: 'POST' })
+        .then(response => {
+          if (!response.ok) throw new Error('Error al activar la alarma');
+          return response.json();
+        })
+        .then(data => {
+          mensaje.textContent = data.message; // muestra "Alarma activada..."
+        })
+        .catch(error => {
+          mensaje.textContent = error.message;
+        });
+    });
+  </script>
+</body>
+</html>
